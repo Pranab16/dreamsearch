@@ -1,0 +1,41 @@
+<div id="search_page">
+    <h2 class="section_title">
+        Search Results for "<%= @key %>"
+    </h2>
+
+    <% if @results.count > 0 %>
+        <div class="results_group">
+            <% @results.each do |result|%>
+                <!-- Category result -->
+                <% if result.class.name == "Category" %>
+                    <div class="result_item">
+                        <%= link_to category_path(result,:trailing_slash=>true) do %>
+                            <div class="category_title result_title">
+                                <%= result.name %>
+                            </div>
+                        <% end %>
+                        <div class="result_details meta">
+
+                        </div>
+                    </div>
+                <% else %>
+                    <!-- Product result-->
+                    <div class="result_item">
+                        <%= link_to category_product_path(:id => result.id, :category_id=> result.category_id, :trailing_slash=>true) do %>
+                            <div class="product_title result_title">
+                                <%= result.name %>
+                            </div>
+                        <% end %>
+                        <div class="result_details meta">
+                            <%= result.category.name %>
+                        </div>
+                    </div>
+                <% end %>
+            <% end %>
+        </div>
+
+        <%= will_paginate(@results) unless @results.blank? %>
+    <% else %>
+        No Results Found.
+    <% end %>
+</div>
