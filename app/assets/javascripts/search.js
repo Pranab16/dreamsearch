@@ -4,9 +4,11 @@ function init_search_box(search_url){
             var self = this, category = '';
 
             $.each( items, function( index, item ) {
+                var re = new RegExp(self.term, 'gi');
+                var itemValue = item.value.replace(re,"<span class='item-highlight'>" + self.term + "</span>");
                 if ( item.category === undefined ) {
                     self._renderItemData(ul, item).addClass('category').
-                        html("<a href='/categories/" + item.id + "'>" + item.value + "</a>");
+                        html("<a href='/categories/" + item.id + "'>" + itemValue + "</a>");
                 }else {
                     if (category !== item.category){
                         ul.append( "<li class='ui-menu-item category'> " +
@@ -14,7 +16,7 @@ function init_search_box(search_url){
                         category = item.category;
                     }
                     self._renderItemData(ul, item).addClass('product').
-                        html("<a href='/categories/" + item.category_id + "/products/" + item.id + "'>" + item.value + "</a>");
+                        html("<a href='/categories/" + item.category_id + "/products/" + item.id + "'>" + itemValue + "</a>");
                 }
             });
         }
